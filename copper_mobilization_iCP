@@ -1,0 +1,242 @@
+{
+	"iCP" : {
+		"inputFileVersion" : "1.0",
+		"loggerLevel" : "verbose",
+		"runner" : {
+			"problemIdSequence" : [
+				"problem1"
+			],
+			"restart" : {
+				"isActive" : false,
+				"checkPointId" : "checkpoint1",
+				"checkPointStep" : 1
+			}
+		},
+		"problemList" : {
+			"problem1" : {
+				"timeStepId" : "timeStep1",
+				"checkPointIds" : ["checkpoint1"],
+				"studyId" : "firstStudy",
+				"domainIds" : ["AllDomain","InnerDomain" ,"BCwaterId1","JaroDomain"],
+				"variableIds" : {
+					"fromComsolToPhreeqc" :
+					[],
+					"fromPhreeqcToComsol" :
+					["selectedOutput"],
+					"bothDirections" :
+					["aqueousComponents"]
+				}
+			}
+		},
+		"timeStepList" : {
+			"timeStep1" : [{
+					"type" : "linear",
+					"units" : "seconds",
+					"initialTime" : 0,
+					"endTime" : 8000,
+					"numOfIntervals" : 10,
+					"storeSolutionFrequency" : 1,
+					"writeOutputFileToDiskFrequency" : 10
+				}
+			]
+		},
+		"checkPointList" : {
+			"checkpoint1" : {
+				"units" : "seconds",
+				"times" : [2],
+				"path" : "checkPoint"
+			}
+		}
+	},
+	"comsolRT" : {
+		"inputFileVersion" : "3.0",
+		"globalSettings" : {
+			"inputFile" : "comsol/inputFull.mph",
+			"resultsFileName" : "results/myOutput1.mph",
+			"componentTag" : "comp1"
+		},
+		"comsolServer" : {
+			"portNumber" : 2036,
+			"hostName" : "localhost",
+			"showProgress" : true
+		},
+		"studyList" : {
+			"firstStudy" : {
+				"studyTag" : "std1",
+				"masterSolverName" : "masterSolver",
+				"solverSequence" : [
+					{
+						"name":"flowSolver",
+						"solverTag":"sol1",
+						"mustBeSolved":true,
+						"stepTag":"stat"
+					}, {
+						"name" : "masterSolver",
+						"solverTag" : "sol2",
+						"mustBeSolved" : true,
+						"physicsIds" : ["liquidSoluteTransportInterface"],
+						"stepTag" : "time"
+					}, {
+						"name" : "resultsSolver",
+						"solverTag" : "sol3",
+						"mustBeSolved" : false,
+						"physicsIds" : ["results"],
+						"physicsDomainId" : ["allDomains"],
+						"stepTag" : "time2"
+					}
+				]
+			}
+		},
+		"physicsList" : {
+			"liquidSoluteTransportInterface" : {
+				"type" : "iCP_soluteTransport",
+				"tag" : "ist"
+			},
+			"results" : {
+				"type" : "iCP_results",
+				"tag" : "irs"
+			}
+		},
+		"domainList" : {
+			"AllDomain" : {
+				"type" : "selection",
+				"tag" : "sel1"
+			},
+			"InnerDomain" : {
+				"type" : "selection",
+				"tag" : "sel2"
+			},
+			"JaroDomain" : {
+				"type" : "selection",
+				"tag" : "sel4"
+			},
+			"BCwaterId1" : {
+				"type" : "boundaryCondition",
+				"relatedPhyicsInfo" : [{
+						"physicsId" : "liquidSoluteTransportInterface",
+						"tag" : "opb1"
+					}
+				]
+			}
+		},
+		"variableList" : {
+			"selectedOutput" : {
+				"type" : "physicsUnknownSet",
+				"name" : "tempNameSelOut",
+				"physicsId" : "results"
+			},
+			"aqueousComponents" : {
+				"type" : "physicsUnknownSet",
+				"name" : "tempNameAqComps",
+				"physicsId" : "liquidSoluteTransportInterface"
+			}
+		}
+	},
+
+	"phreeqcRocks" : {
+		"inputFileVersion" : "4.0",
+		"studyList" : {
+			"firstStudy" : {
+				"parallelizationManager" : {
+					"numberOfThreads" : 4,
+					"numberOfAvailableLibraries" : 5
+				}
+			}
+		},
+		"domainList" : {
+			"AllDomain" : {
+				"pathId" : "phreeqcInputPath1",
+				"databaseId" : "phreeqcDB1",
+				"inputFileId" : "phreeqcFile1",
+				"selectedOutputId" : "output1",
+				"numericalManagerId" : "myNumericalManager1",
+				"numberOfSlices" : 4
+			},
+			"InnerDomain" : {
+				"pathId" : "phreeqcInputPath1",
+				"databaseId" : "phreeqcDB1",
+				"inputFileId" : "phreeqcFile2",
+				"selectedOutputId" : "output1",
+				"numericalManagerId" : "myNumericalManager1",
+				"numberOfSlices" : 4
+			},
+			"JaroDomain" : {
+				"pathId" : "phreeqcInputPath1",
+				"databaseId" : "phreeqcDB1",
+				"inputFileId" : "phreeqcFile3",
+				"selectedOutputId" : "output1",
+				"numericalManagerId" : "myNumericalManager1",
+				"numberOfSlices" : 4
+			},
+			"BCwaterId1" : {
+				"pathId" : "phreeqcInputPath1",
+				"databaseId" : "phreeqcDB1",
+				"inputFileId" : "phreeqcFileBC",
+				"selectedOutputId" : "output1",
+				"numericalManagerId" : "myNumericalManager1",
+				"numberOfSlices" : 1
+			}
+		},
+		"variableList" : {
+			"selectedOutput" : {
+				"type" : "selected_output_all"
+			},
+			"aqueousComponents" : {
+				"type" : "all_transported_components"
+			}
+		},
+		"pathList" : {
+			"phreeqcInputPath1" : "phreeqc"
+		},
+		"dataBaseList" : {
+			"phreeqcDB1" : {
+				"pathId" : "phreeqcInputPath1",
+				"phreeqcDatabase" : "phreeqc.dat"
+			}
+		},
+		"inputFileList" : {
+			"phreeqcFile1"       : "AllDomainWater.pqi",
+			"phreeqcFile2"       : "InnerDomainWater.pqi",
+			"phreeqcFile3"       : "JaroDomainWater.pqi",
+			"phreeqcFileBC"      : "boundaryWater.pqi"
+		},
+		"selectedOutputList" : {
+			"output1" : {
+				"activities" : ["Fe_tri+3","Hydro+","Cu_di+2","Sulfate-2","K+"],
+				"molalities" : ["Fe_di_hydroxide+","Fe_di_trihydroxide-","Fe_tri_dihydroxide2+","Fe_di+2","Fe_tri+3","Fe_tri_hydroxide+2","Hydro+","H4SiO4","Cu_di+2","Sulfate-2","K+"],
+				"totals" : [],
+				"equilibrium_phases" : ["Jarosite-K","O2(g)","SiO2(a)"],
+				"equilibrium_phases_delta" : ["Jarosite-K",,"O2(g)","SiO2(a)"],
+				"saturation_indices" : ["Quartz","SiO2(a)","Jarosite-K"],
+				"kinetic_reactants" : ["Fe_di_ox","Quartz"],
+				"kinetic_reactants_delta" : [],
+				"solid_solutions" : [],
+				"gases" : [],
+				"general" : [
+					"pH"
+				],
+				"punch" : [
+				{"name": "molesofJaro",
+				 "definition" : "EQUI_DELTA('Jarosite-K')"}
+				],
+				"extended" : []
+			}
+		},
+		"numericalManagerList" : {
+			"myNumericalManager1" : {
+				"concentrationLimiter" : {
+					"isActive" : true,
+					"maxLimit" : 1e15,
+					"minLimit" : 1e-40
+				},
+				"recalculationCriterium" : {
+					"isActive" : false,
+					"relativeConcentrationChange" : 1e-3,
+					"absoluteConcentrationChange" : 1e-8,
+					"minimumValue" : 1e-10
+				},
+				"stopIfConvergenceProblems" : false
+			}
+		}
+	}
+}
