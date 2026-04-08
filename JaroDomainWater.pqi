@@ -1,0 +1,104 @@
+SOLUTION 1
+temp   	25
+pH    	2.0
+Hydro   10.0
+Fe_di   1e-7
+Fe_tri  1e-8
+A       100
+B       100
+G       100
+D       100
+F       100
+Cu_di   2.388e-18
+Silica      1e-10
+K       1e-1
+Sulfate 0.000000019
+Cl      130
+-water  1kg
+
+EQUILIBRIUM_PHASES 1
+	Jarosite-K  0.0  0.0
+
+KINETICS 1
+-cvode true
+-cvode_steps 5000
+-cvode_order 5
+
+Fe_di_ox
+-formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-008
+
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
