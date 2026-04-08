@@ -1,0 +1,85 @@
+SOLUTION 1
+temp   	25
+pH    	2.0
+Hydro   10.0
+Fe_di   1e-10
+Fe_tri  1e-8
+A       100
+B       10
+G       10
+D       10
+F       10
+Cu_di   2.388e-18
+Silica      1e1
+K       1e-1
+Sulfate 0.000000019
+Cl      130
+-water  1kg
+
+
+KINETICS 1
+-cvode true
+-cvode_steps 5000
+-cvode_order 5
+
+Fe_di_ox
+-formula  Fe_di  -1 Fe_tri  1
+    -m        1
+    -m0       1
+    -tol      1e-008
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
